@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new</title>
+</head>
+<body>
+
+<!-- قسم نموذج الحجز -->
+<section id="booking" style="padding: 50px; background: #f1f1f9; direction: rtl; text-align: right; font-family: 'Arial', sans-serif;">
+  <h2 style="text-align: center; color: #222; margin-bottom: 30px;"> الحجز</h2>
+  <form id="bookingForm" style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">نوع المكان:</label>
+    <select id="placeType" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 15px;">
+      <option value="منزل صغير">منزل صغير</option>
+      <option value="منزل كبير">منزل كبير</option>
+      <option value="حديقة">حديقة</option>
+      <option value="مطعم">مطعم</option>
+      <option value="شيء آخر">شيء آخر</option>
+    </select>
+
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">وصف الحالة:</label>
+    <textarea id="situation" required placeholder="مثال: وجود صراصير في المطبخ..." style="width:100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 15px;"></textarea>
+
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">اختر المدينة:</label>
+    <select id="city" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 15px;">
+      <option value="الدار البيضاء">الدار البيضاء</option>
+      <option value="الرباط">الرباط</option>
+      <option value="فاس">فاس</option>
+      <option value="مراكش">مراكش</option>
+      <option value="أكادير">أكادير</option>
+      <option value="مدينة أخرى">مدينة أخرى</option>
+    </select>
+
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">رقم الهاتف:</label>
+    <input type="tel" id="phone" required placeholder="06xxxxxxxx" style="width:100%; padding:10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 15px;">
+
+    <label style="display: block; margin-bottom: 5px; font-weight: bold;">نوع التدخل:</label>
+    <select id="intervention" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+      <option value="مكافحة الحشرات">مكافحة الحشرات</option>
+      <option value="مكافحة القوارض">مكافحة القوارض</option>
+      <option value="تعقيم وتعطير">تعقيم وتعطير</option>
+      <option value="شيء آخر">شيء آخر</option>
+    </select>
+
+    <button type="submit" style="width: 100%; background: #000; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">📩 إرسال الطلب عبر واتساب</button>
+  </form>
+  <p id="successMessage" style="display:none; text-align:center; margin-top: 25px; color:green; font-weight: bold; font-size: 18px;">✅ تم إرسال طلبك بنجاح، سيتم التواصل معك قريبًا عبر واتساب.</p>
+</section>
+
+<script>
+  const form = document.getElementById("bookingForm");
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const place = document.getElementById("placeType").value;
+    const situation = document.getElementById("situation").value;
+    const city = document.getElementById("city").value;
+    const phone = document.getElementById("phone").value;
+    const intervention = document.getElementById("intervention").value;
+
+    const message = `🛡️ طلب جديد من الموقع:\n\n📍 نوع المكان: ${place}\n📋 الحالة: ${situation}\n🏙️ المدينة: ${city}\n📞 رقم الهاتف: ${phone}\n🛠️ نوع التدخل: ${intervention}`;
+
+    const whatsappURL = `https://wa.me/0644313483?text=${encodeURIComponent(message)}`;
+    // إظهار رسالة نجاح
+    document.getElementById("successMessage").style.display = "block";
+
+    // فتح WhatsApp مباشرة بعد ثانيتين
+    setTimeout(() => {
+      window.open(whatsappURL, "_blank");
+    }, 2000);
+  });
+</script>
+<script>
+  function sendToWhatsApp() {
+    const name = document.getElementById("clientName").value.trim();
+    const phone = document.getElementById("clientPhone").value.trim();
+    const service = document.getElementById("serviceType").value;
+    const message = document.getElementById("clientMessage").value.trim();
+
+    if (!name || !phone || !service) {
+      alert("يرجى ملء جميع الحقول المطلوبة.");
+      return;
+    }
+
+    const text = `🔔 طلب جديد من الموقع:
+👤 الاسم: ${name}
+📞 الهاتف: ${phone}
+🛠 الخدمة المطلوبة: ${service}
+💬 ملاحظات: ${message || "لا توجد"}
+`;
+
+    const encodedText = encodeURIComponent(text);
+    const yourPhone = "212600000000"; // <-- ضع هنا رقمك بدون + (رمز الدولة فقط)
+
+    window.open(`https://wa.me/0644313483${yourPhone}?text=${encodedText}`, "_blank");
+  }
+</script>
+
+</body>
+</html>
